@@ -1,6 +1,15 @@
-import { ClerkProvider } from "@clerk/nextjs";
+import React from "react";
+import type { Metadata } from "next";
 
-export const metadat = {
+import { ClerkProvider } from "@clerk/nextjs";
+import { Inter } from "next/font/google";
+import { dark } from "@clerk/themes";
+
+import "../globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
   title: "Threads",
   description: "Threads clone by Thathsara Hewage using Next.js 13",
 };
@@ -10,5 +19,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <ClerkProvider></ClerkProvider>;
+  return (
+    <ClerkProvider appearance={{ baseTheme: dark }}>
+      <html lang="en">
+        <body className={`${inter.className} bg-dark-1`}>{children}</body>
+      </html>
+    </ClerkProvider>
+  );
 }
