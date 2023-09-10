@@ -1,6 +1,7 @@
 {
   "name": "threads",
   "version": "0.1.0",
+  "author": "thathsara-hewage",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,6 +24,7 @@
     "react-dom": "18.2.0",
     "svix": "^1.11.0",
     "tailwindcss": "3.3.3",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "uploadthing": "^5.5.3"
   }

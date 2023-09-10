@@ -4,6 +4,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { dark } from "@clerk/themes";
 
+// components
+import TopBar from "@/component/shared/TopBar";
+import RightSideBar from "@/component/shared/RightSideBar";
+import LeftSideBar from "@/component/shared/LeftSideBar";
+import BottomBar from "@/component/shared/BottomBar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,7 +29,17 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
-        <body className={`${inter.className} bg-dark-1`}>{children}</body>
+        <body className={`${inter.className} bg-dark-1`}>
+          <TopBar />
+          <main>
+            <LeftSideBar />
+            <section className="main-container">
+              <div className="w-full max-w-4xl">{children}</div>
+            </section>
+            <RightSideBar />
+          </main>
+          <BottomBar />
+        </body>
       </html>
     </ClerkProvider>
   );
