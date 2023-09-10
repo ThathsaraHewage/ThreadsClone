@@ -10,8 +10,8 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Threads",
-  description: "Threads clone by Thathsara Hewage using Next.js 13",
+  title: "Verse",
+  description: "Verse by Thathsara Hewage using Next.js 13",
 };
 
 export default function RootLayout({
