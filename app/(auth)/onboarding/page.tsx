@@ -1,12 +1,20 @@
+import UserProfile from "@/components/forms/UserProfile";
 import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 
 async function OnBoarding() {
   // check current user
-  const User = await currentUser();
-  if (!User) return null;
+  const user = await currentUser();
+  if (!user) return null;
 
   // current user information
+  const userData = {
+    id: "",
+    objectId: "",
+    username: "",
+    name: "",
+    bio: "",
+    image: "",
+  };
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
@@ -15,7 +23,9 @@ async function OnBoarding() {
         Complete your profile now, to use Threds.
       </p>
 
-      <section className="mt-9 bg-dark-2 p-10"></section>
+      <section className="mt-9 bg-dark-2 p-10">
+        <UserProfile user={userData} btnTitle="Continue" />
+      </section>
     </main>
   );
 }

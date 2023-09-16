@@ -8,7 +8,6 @@ function RightSideBar() {
           Suggested Communities
         </h3>
       </div>
-      // TODO
     </section>
   );
 }
