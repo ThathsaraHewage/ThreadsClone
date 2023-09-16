@@ -1,7 +1,8 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
 import Image from "next/image";
+import React, { ChangeEvent, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,8 +22,14 @@ import { z } from "zod";
 
 import { userValidation } from "@/lib/validations/user";
 import { UserProfileProps } from "@/utils/interfaces";
+import { isBase64Image, useUploadThing } from "@/utils/service";
 
 const UserProfile = ({ user, btnTitle }: UserProfileProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [files, setFiles] = useState<File[]>([]);
+  const { startUpload } = useUploadThing("media");
+
   const form = useForm<z.infer<typeof userValidation>>({
     resolver: zodResolver(userValidation),
     defaultValues: {
@@ -33,15 +40,54 @@ const UserProfile = ({ user, btnTitle }: UserProfileProps) => {
     },
   });
 
+  // handle upload image
   const handleImage = (
     e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
-  ) => {};
+  ) => {
+    e.preventDefault();
 
+    const fileReader = new FileReader();
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFiles(Array.from(e.target.files));
+
+      if (!file.type.includes("image")) {
+        return;
+      }
+
+      fileReader.onload = async (e) => {
+        const imageData = e.target?.result?.toString() || "";
+        fieldChange(imageData);
+      };
+      fileReader.readAsDataURL(file);
+    }
+  };
+
+  // on submit handle
   const onSubmit = async (values: z.infer<typeof userValidation>) => {
     const blob = values.profilepic;
 
-    //const hasImagedChanged =
+    const hasImagedChanged = isBase64Image(blob);
+
+    if (hasImagedChanged) {
+      const imageResult = await startUpload(files);
+
+      // ! check here
+      if (imageResult && imageResult[0].url) {
+        values.profilepic = imageResult[0].url;
+      }
+    }
+
+    // update user data
+
+    // routes
+    if (pathname === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   return (
