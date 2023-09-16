@@ -20,18 +20,7 @@ import { Textarea } from "../ui/textarea";
 import { z } from "zod";
 
 import { userValidation } from "@/lib/validations/user";
-
-interface UserProfileProps {
-  user: {
-    id: string;
-    objectId: string;
-    username: string;
-    name: string;
-    bio: string;
-    image: string;
-  };
-  btnTitle: string;
-}
+import { UserProfileProps } from "@/utils/interfaces";
 
 const UserProfile = ({ user, btnTitle }: UserProfileProps) => {
   const form = useForm<z.infer<typeof userValidation>>({
