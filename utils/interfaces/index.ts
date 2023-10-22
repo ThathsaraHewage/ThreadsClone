@@ -9,3 +9,12 @@ export interface UserProfileProps {
   };
   btnTitle: string;
 }
+
+export interface UserParams {
+  userId: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+  path: string;
+}

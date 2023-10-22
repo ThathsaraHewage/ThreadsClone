@@ -23,6 +23,7 @@ import { z } from "zod";
 import { userValidation } from "@/lib/validations/user";
 import { UserProfileProps } from "@/utils/interfaces";
 import { isBase64Image, useUploadThing } from "@/utils/service";
+import { updateUserInfo } from "@/lib/actions/user";
 
 const UserProfile = ({ user, btnTitle }: UserProfileProps) => {
   const router = useRouter();
@@ -81,7 +82,14 @@ const UserProfile = ({ user, btnTitle }: UserProfileProps) => {
     }
 
     // update user data
-
+    await updateUserInfo({
+      userId: user.id,
+      username: values.username,
+      name: values.name,
+      bio: values.bio,
+      image: values.profilepic,
+      path: pathname,
+    });
     // routes
     if (pathname === "/profile/edit") {
       router.back();

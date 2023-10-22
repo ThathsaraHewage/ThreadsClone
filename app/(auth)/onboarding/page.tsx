@@ -1,19 +1,24 @@
 import UserProfile from "@/components/forms/UserProfile";
+import { fetchUser } from "@/lib/actions/user";
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 async function OnBoarding() {
   // check current user
   const user = await currentUser();
   if (!user) return null;
 
+  const userInfo: any = await fetchUser(user.id);
+  if (userInfo?.onboarded) redirect("/");
+
   // current user information
   const userData = {
-    id: "",
-    objectId: "",
-    username: "",
-    name: "",
-    bio: "",
-    image: "",
+    id: user.id,
+    objectId: userInfo?._id,
+    username: userInfo ? userInfo?.username : user.username,
+    name: userInfo ? userInfo?.name : user.firstName ?? "",
+    bio: userInfo ? userInfo?.bio : "",
+    image: userInfo ? userInfo?.image : user.imageUrl,
   };
 
   return (
